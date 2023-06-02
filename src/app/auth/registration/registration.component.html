@@ -1,0 +1,42 @@
+<div class="col-12 margin-top">
+  <div class="col-6 offset-3">
+    <div class="row">
+      <div class="col-12">
+        <div class="card">
+          <div class="card-header card-header-danger">
+            <h4 class="card-title">Registratoin</h4>
+            <p class="card-category">Enter your registratoin information</p>
+          </div>
+          <div class="card-body">
+            <form [formGroup]="myRegistratoinForm" (ngSubmit)="registratoin()">
+              <div class="row">
+                <div class="col-12">
+                  <mat-form-field class="example-full-width">
+                    <input matInput type="email" placeholder="Email address" formControlName="email">
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-12">
+                  <mat-form-field class="example-full-width">
+                    <input matInput type="text" placeholder="Password" formControlName="password">
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-12">
+                  <mat-form-field class="example-full-width">
+                    <input matInput type="text" placeholder="Password" formControlName="passwordRepeat">
+                  </mat-form-field>
+                </div>
+              </div>
+              <button mat-raised-button type="submit" class="btn btn-danger pull-center">Registration</button>
+              <a [routerLink]="'/login'">   Login   </a>
+              <a [routerLink]="'/forgot'">   Forgot password?   </a>
+              <div class="clearfix"></div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
