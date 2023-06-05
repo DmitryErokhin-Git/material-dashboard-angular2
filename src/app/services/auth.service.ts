@@ -2,7 +2,6 @@ import { Router } from '@angular/router';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { Injectable, OnInit } from '@angular/core';
 import { GoogleAuthProvider, getAuth, onAuthStateChanged } from '@angular/fire/auth';
-import { AngularFirestore } from '@angular/fire/compat/firestore';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +9,7 @@ import { AngularFirestore } from '@angular/fire/compat/firestore';
 export class AuthService implements OnInit {
 
   authenticated = false
-  userData = "Current user"
+  userData = ""
 
   constructor
     (
@@ -21,40 +20,39 @@ export class AuthService implements OnInit {
   ngOnInit() {
   }
 
-  registration(email: string, password: string) {
-    this.angularFireAuth.createUserWithEmailAndPassword(email, password)
+  async registration(email: string, password: string) {
     try {
-      // console.log(res.user?.uid)
+      await this.angularFireAuth.createUserWithEmailAndPassword(email, password)
       this.login(email, password)
     } catch (error) {
       console.log(error.message)
     }
   }
 
-  login(email: string, password: string) {
-    const res = this.angularFireAuth.signInWithEmailAndPassword(email, password)
+  async login(email: string, password: string) {
     try {
+      const res = await this.angularFireAuth.signInWithEmailAndPassword(email, password)
       console.log('log in')
-      console.log(res)
+      this.userData = res.user.email
       this.router.navigate(['dashboard'])
     } catch (error) {
       console.log(error.message)
     }
   }
 
-  singInWithGoogle() {
+  async singInWithGoogle() {
     try {
-      return this.angularFireAuth.signInWithPopup(new GoogleAuthProvider)
-      .then(() => this.router.navigate(['dashboard']))
+      const res = await this.angularFireAuth.signInWithPopup(new GoogleAuthProvider)
+      this.router.navigate(['dashboard'])
+      this.userData = res.user.email
       } catch (error) {
       console.log(error.message)
     }
   }
 
-  logout() {
-    this.angularFireAuth.signOut()
+  async logout() {
     try {
-      // console.log('log out')
+      await this.angularFireAuth.signOut()
       this.router.navigate(['/login'])
       this.authenticated = false
       this.userData = null
@@ -63,9 +61,9 @@ export class AuthService implements OnInit {
     }
   }
 
-  forgotPassword(email: string) {
-    this.angularFireAuth.sendPasswordResetEmail(email)
+  async forgotPassword(email: string) {
     try {
+      await this.angularFireAuth.sendPasswordResetEmail(email)
       this.router.navigate(['/auth'])
       alert('Check your email')
     } catch (error) {

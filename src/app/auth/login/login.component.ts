@@ -1,8 +1,8 @@
 import { AuthService } from '../../services/auth.service';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
+import { OnWindowResizeServise } from 'app/services/onWindowResize.service';
 // import { constructor } from 'chartist';
-import { type } from 'jquery';
 
 @Component({
   selector: 'app-login',
@@ -17,7 +17,8 @@ export class LoginComponent implements OnInit {
   })
 
   constructor(
-    private authService: AuthService
+    private authService: AuthService,
+    public onWindowResizeServise: OnWindowResizeServise,
   ) { }
 
   ngOnInit() {
